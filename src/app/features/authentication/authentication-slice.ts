@@ -51,7 +51,7 @@ const initialState: IInitialState = {
   codeName: '',
   error: '',
   isVerified: false,
-  verifyLoading: true,
+  verifyLoading: false,
 };
 
 const authenticationSlice = createSlice({
