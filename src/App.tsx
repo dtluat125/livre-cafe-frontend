@@ -30,7 +30,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
-import { VoucherBadge } from './components/ViewOrderModal';
 import VouchersScreen from './screens/VouchersScreen';
 
 function App() {

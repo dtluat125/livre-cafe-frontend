@@ -105,7 +105,7 @@ export default function CheckOutTable() {
       field: 'additionalRequirements',
       headerName: 'Additional Requirements',
       sortable: false,
-      flex: 1
+      flex: 1,
     },
     {
       field: 'edit',
@@ -125,12 +125,12 @@ export default function CheckOutTable() {
     const reservation = cartState.reservation;
     const cartReservation = {
       id: 1,
-      _id: cartState.reservation?.area._id,
+      _id: cartState.reservation?.area?._id,
       type: 'Reservation',
-      name: reservation?.area.name,
+      name: reservation?.area?.name,
       quantity: reservation?.duration,
       cost: reservation
-        ? reservation?.duration * reservation?.area?.costPerHour
+        ? reservation?.duration * (reservation?.area?.costPerHour || 0)
         : 0,
       additionalRequirements: reservation?.additionalRequirements
         ? reservation?.additionalRequirements
@@ -199,7 +199,7 @@ export default function CheckOutTable() {
         rowsPerPageOptions={[5, 10, 25, 50, 100]}
         // autoHeight={true}
         headerHeight={80}
-        density={"comfortable"}
+        density={'comfortable'}
         sx={{
           padding: '1rem',
           paddingTop: '0',

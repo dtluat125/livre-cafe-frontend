@@ -95,8 +95,8 @@ function Invoice(props: InvoiceProps) {
                   ? [
                     {
                       // _id: state.reservation._id,
-                      name: state.reservation.area.name,
-                      price: state.reservation.area.costPerHour,
+                      name: state.reservation.area?.name,
+                      price: state.reservation.area?.costPerHour,
 
                       additionalRequirements:
                         state.reservation.additionalRequirements || '',

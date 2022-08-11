@@ -173,14 +173,14 @@ export function VoucherBadge(props: VoucherBadgeProps) {
       <Box
         sx={{
           width: 120,
-          backgroundColor: getBackgroundColor(voucher.color),
+          backgroundColor: getBackgroundColor(voucher.fontColor || ''),
           borderRadius: 3,
           p: 1,
         }}
       >
         <Typography
           fontWeight={600}
-          color={voucher.color}
+          color={voucher.fontColor}
           textOverflow="ellipsis"
           whiteSpace="nowrap"
           overflow="hidden"

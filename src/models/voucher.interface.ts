@@ -6,6 +6,7 @@ export interface VoucherInterface {
   pointsCost: number;
   percentageDiscount: number;
   maxAmount: number;
+  fontColor?: string;
 }
 
 export type VoucherPostData = Omit<VoucherInterface, '_id'>;

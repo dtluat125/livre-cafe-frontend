@@ -269,7 +269,7 @@ function EditReservationModal(props: AddReservationProps) {
                     views={['day']}
                     // label="Just date"
                     value={reservationState.date}
-                    onChange={(newValue) => {
+                    onChange={(newValue: string) => {
                       handleChangeState('date')(newValue || new Date());
                     }}
                     disablePast
@@ -278,7 +278,7 @@ function EditReservationModal(props: AddReservationProps) {
                         'ddd, D MMM YYYY',
                       );
                     }}
-                    renderInput={(params) => (
+                    renderInput={(params: any) => (
                       <TextField
                         variant="outlined"
                         {...params}

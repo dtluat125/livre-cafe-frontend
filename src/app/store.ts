@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { bookApi } from '@app/app/services/books/books-api-slice';
-import { drinkApi } from '@app/app/services/drinks/drinks-api-slice';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from '@app/app/sagas/rootSaga';
 import drinksReducer from '@app/app/features/drinks/drinks-slice';
@@ -28,8 +26,7 @@ export const store = configureStore({
     areas: areasReducer,
     reservations: reservationsReducer,
     vouchers: vouchersReducer,
-    [bookApi.reducerPath]: bookApi.reducer,
-    [drinkApi.reducerPath]: drinkApi.reducer,
+
     [verifyApi.reducerPath]: verifyApi.reducer,
   },
   middleware: (getDefaultMiddleWare) =>
@@ -42,10 +39,7 @@ export const store = configureStore({
         // Ignore these paths in the state
         // ignoredPaths: ['items.dates'],
       },
-    })
-      .concat(bookApi.middleware)
-      .concat(drinkApi.middleware)
-      .concat(sagaMiddleware),
+    }).concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);

@@ -1,7 +1,7 @@
 import { CustomerInterface, VoucherInterface } from '@app/models';
 import { ProductInterface } from '@app/models/product.interface';
 import { ReservationPostData } from '@app/models/reservation.interface';
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, Reducer, useReducer } from 'react';
 
 export interface CartItemInterface extends ProductInterface {
   quantity: number;
@@ -16,7 +16,7 @@ export interface CartStateInterface {
 
   customer?: CustomerInterface;
   reservation?: ReservationPostData;
-  vouchers: VoucherInterface[];
+  vouchers?: VoucherInterface[];
 }
 
 export enum CartAction {
@@ -47,14 +47,19 @@ const initialState: CartStateInterface = {
 
   customer: localStorage.getItem('cartCustomer')
     ? JSON.parse(localStorage.getItem('cartCustomer') || '')
-    : null,
+    : undefined,
   vouchers: localStorage.getItem('vouchers')
     ? JSON.parse(localStorage.getItem('vouchers') || '')
-    : null,
+    : undefined,
   reservation: localStorage.getItem('reservation')
     ? JSON.parse(localStorage.getItem('reservation') || '')
-    : null,
+    : undefined,
 };
+
+export interface ContextDispatch {
+  action: CartAction;
+  payload: any;
+}
 
 export const Store = createContext<{
   state: CartStateInterface;
@@ -78,13 +83,16 @@ function reducer(
     (item: ProductInterface) => item?._id === selectedItem?._id,
   );
 
+  if (!action) {
+    return state;
+  }
 
   switch (action.type) {
     case CartAction.CART_ADD_ITEM: {
       const cartItems = existItem
         ? state.cart?.cartItems?.map((item) =>
-          item._id === existItem._id ? selectedItem : item,
-        )
+            item._id === existItem._id ? selectedItem : item,
+          )
         : [...state.cart.cartItems, action.payload];
 
       return {
@@ -97,12 +105,12 @@ function reducer(
     case CartAction.CART_UPDATE_ITEM_QUANTITY: {
       const cartItems = existItem
         ? state.cart?.cartItems?.map((item) =>
-          item._id === existItem._id &&
+            item._id === existItem._id &&
             (selectedItem?.quantity <= selectedItem.stock ||
               selectedItem.hasNoStock)
-            ? selectedItem
-            : item,
-        )
+              ? selectedItem
+              : item,
+          )
         : [...state.cart.cartItems, action.payload];
       const filteredCartItems = (cartItems as CartItemInterface[]).filter(
         (item) =>
@@ -163,8 +171,7 @@ function reducer(
     }
 
     case CartAction.ADD_VOUCHERS: {
-
-      const newVouchers = [...action.payload as VoucherInterface[]]
+      const newVouchers = [...(action.payload as VoucherInterface[])];
       return {
         ...state,
         vouchers: newVouchers,
@@ -210,7 +217,10 @@ function reducer(
 }
 
 export function StoreProvider(props: StorePropsInterface) {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer<Reducer<any, any>>(
+    reducer,
+    initialState,
+  );
   const value = { state, dispatch };
   return <Store.Provider value={value}>{props.children}</Store.Provider>;
 }
