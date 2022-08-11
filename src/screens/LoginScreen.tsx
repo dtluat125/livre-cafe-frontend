@@ -1,12 +1,38 @@
 import LoginBox from '@app/components/LoginBox';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import React from 'react';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import { useSelector } from 'react-redux';
+import { selectVerifyLoading } from '@app/app/features/authentication/authentication-slice';
 
 function LoginScreen() {
   const theme = useTheme();
-  return (
+  const verifyLoading = useSelector(selectVerifyLoading);
+
+  return verifyLoading ? (
+    <div
+      style={{
+        //   width: '100%',
+        height: '100vh',
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 'auto',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    </div>
+  ) : (
     <Grid
       display="flex"
       justifyContent="center"

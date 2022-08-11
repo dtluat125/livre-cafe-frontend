@@ -5,7 +5,7 @@ import {
 } from '@app/app/features/authentication/authentication-slice';
 import { LOGIN_PATH } from '@app/constants';
 import { Box, CircularProgress } from '@mui/material';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ function requireAuthentication(Component: any) {
     const navigate = useNavigate();
     const isVerified = useSelector(selectVerify);
     const authLoading = useSelector(selectVerifyLoading);
+    const [isStartVerify, setIsStartVerify] = useState(false);
     useEffect(() => {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -22,10 +23,11 @@ function requireAuthentication(Component: any) {
         return;
       }
       dispatch(verify({ callback: (success) => {} }));
+      setIsStartVerify(true);
     }, [dispatch]);
 
     useEffect(() => {
-      if (!isVerified && !authLoading) {
+      if (!isVerified && !authLoading && isStartVerify) {
         navigate(LOGIN_PATH);
       }
     }, [isVerified, authLoading]);
