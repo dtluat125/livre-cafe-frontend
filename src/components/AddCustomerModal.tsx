@@ -1,6 +1,6 @@
 import {
   addCustomer,
-  selectCustomersAddLoading,
+  selectCustomersAddLoading
 } from '@app/app/features/customers/customers-slice';
 import PhoneInputCustom from '@app/components/PhoneInputCustom';
 import { InventoryType } from '@app/constants';
@@ -9,21 +9,18 @@ import {
   CustomerGender,
   CustomerInterface,
   CustomerPostData,
-  RankType,
+  RankType
 } from '@app/models/customer.interface';
 import { BookInterface, DrinkInterface } from '@app/models/product.interface';
-import { genRanking } from '@app/utils';
 import AddIcon from '@mui/icons-material/Add';
 import LoadingButton from '@mui/lab/LoadingButton';
 import {
   Button,
-  Divider,
-  FormHelperText,
-  Grid,
+  Divider, Grid,
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField,
+  TextField
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -32,7 +29,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useState } from 'react';
 import NumberFormat from 'react-number-format';
-import PhoneInput, { CountryData } from 'react-phone-input-2';
 import { useDispatch, useSelector } from 'react-redux';
 
 const style = {
@@ -120,7 +116,7 @@ export default function AddCustomerModal(props: AddModalProps) {
       | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
       | SelectChangeEvent,
     field: keyof CustomerStateInterface,
-    country?: CountryData,
+    country?: any,
   ) => {
     setCustomerState((prevState) => {
       let value = e.target.value;
@@ -279,7 +275,7 @@ export default function AddCustomerModal(props: AddModalProps) {
                       // }}
                     /> */}
                     <PhoneInputCustom
-                      onChange={(value, country: CountryData) => {
+                      onChange={(value, country: any) => {
                         const event = {
                           target: {
                             value: value,

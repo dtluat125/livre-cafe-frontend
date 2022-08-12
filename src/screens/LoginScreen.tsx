@@ -1,10 +1,9 @@
+import { selectVerifyLoading } from '@app/app/features/authentication/authentication-slice';
 import LoginBox from '@app/components/LoginBox';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import React from 'react';
-import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useSelector } from 'react-redux';
-import { selectVerifyLoading } from '@app/app/features/authentication/authentication-slice';
 
 function LoginScreen() {
   const theme = useTheme();

@@ -28,7 +28,6 @@ import { useTheme } from '@mui/material/styles';
 import { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import OtpInput from 'react-otp-input';
-import { CountryData } from 'react-phone-input-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -41,9 +40,9 @@ interface InputState {
   isPhoneVerified?: boolean;
   otp: string;
 }
+const intputWidth = 350;
 
 function SignupBox(props: SignupBoxProps) {
-  const intputWidth = 350;
   const theme = useTheme();
   const dispatch = useDispatch();
   const [values, setValues] = useState<InputState>({
@@ -126,221 +125,6 @@ function SignupBox(props: SignupBoxProps) {
     if (!authLoading && isVerified) navigate(INVENTORY_PATH);
   }, [authLoading, isVerified]);
 
-  const renderBody = () => {
-    if (!verifiedStaff) {
-      return (
-        <Grid
-          item
-          container
-          direction="column"
-          alignItems="center"
-          marginTop={5}
-          rowSpacing={2}
-        >
-          <Grid item minWidth={intputWidth}>
-            <PhoneInputCustom
-              onChange={(value, _country: CountryData) => {
-                const event = {
-                  target: {
-                    value: value,
-                  },
-                };
-
-                handleChange('phone')(event as any);
-              }}
-              value={values.phone}
-            />
-          </Grid>
-
-          <Grid item marginY={2} minWidth={intputWidth}>
-            <LoadingButton
-              variant="contained"
-              fullWidth
-              sx={{ textTransform: 'capitalize' }}
-              onClick={handleSignup}
-              loading={verifyPhoneLoading}
-            >
-              <Typography my={0.5} fontWeight={500}>
-                Verify Phone Number
-              </Typography>
-            </LoadingButton>
-          </Grid>
-        </Grid>
-      );
-    }
-
-    if (!isOtpVerified) {
-      return (
-        <Grid
-          item
-          container
-          direction="column"
-          alignItems="center"
-          my={2}
-          spacing={2}
-        >
-          <Grid item>
-            <Typography width={400} textAlign="center" variant="h6">
-              Enter the verification code
-            </Typography>
-            <Typography textAlign="center"> (available in 5 mins)</Typography>
-          </Grid>
-          <Grid item my={2} mx={-2}>
-            <OtpInput
-              value={values.otp}
-              onChange={(otp: string) =>
-                handleChange('otp')({
-                  target: { value: otp },
-                } as React.ChangeEvent<HTMLInputElement>)
-              }
-              numInputs={6}
-              separator={<span>o</span>}
-              inputStyle={{
-                width: '3rem',
-                height: '3rem',
-                margin: '0 1rem',
-                fontSize: '2rem',
-                borderRadius: '4px',
-                border: '1px solid rgba(0, 0, 0, 0.3)',
-              }}
-              isInputNum
-            />
-          </Grid>
-
-          <Grid item container justifyContent="space-between" mt={2}>
-            <LoadingButton
-              variant="outlined"
-              onClick={() => handleChangePhone()}
-            >
-              Change Phone num
-            </LoadingButton>
-            <LoadingButton
-              variant="contained"
-              disabled={values.otp.length < 6}
-              onClick={() => handleVerifyOTP()}
-              loading={isOtpLoading}
-            >
-              Verify
-            </LoadingButton>
-          </Grid>
-        </Grid>
-      );
-    }
-    return (
-      <Grid
-        item
-        container
-        direction="column"
-        alignItems="center"
-        rowSpacing={2}
-      >
-        <Grid item>
-          <Box
-            sx={{
-              padding: `${theme.spacing(2)} 0`,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              minWidth: 'none',
-            }}
-          >
-            {verifiedStaff?.imageUrl && (
-              <div
-                style={{
-                  // overflow: 'hidden',
-                  width: 128,
-                  height: 128,
-                }}
-              >
-                <img
-                  src={verifiedStaff.imageUrl}
-                  alt={'item image'}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                    // maxHeight: '50vh',
-                    margin: `${theme.spacing(2)} 0`,
-                    borderRadius: '50%',
-                  }}
-                />
-              </div>
-            )}
-            <br />
-            <Typography variant="body1">
-              <strong>{verifiedStaff.firstName}</strong>{' '}
-              {verifiedStaff.lastName || ''}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item minWidth={intputWidth}>
-          <OutlinedInput
-            value={values.username}
-            onChange={handleChange('username')}
-            placeholder="Enter username"
-            fullWidth
-          />
-        </Grid>
-        <Grid item minWidth={intputWidth}>
-          <OutlinedInput
-            placeholder="Passcode"
-            type={values.showPasscode ? 'text' : 'password'}
-            value={values.passcode}
-            onChange={handleChange('passcode')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPasscode}
-                  onMouseDown={handleMouseDownPassword}
-                  edge="end"
-                >
-                  {values.showPasscode ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            }
-            fullWidth
-          />
-        </Grid>
-        <Grid item marginY={2} minWidth={intputWidth}>
-          <LoadingButton
-            variant="contained"
-            fullWidth
-            sx={{ textTransform: 'capitalize' }}
-            onClick={handleSignup}
-            loading={authLoading}
-          >
-            <Typography my={0.5} fontWeight={500}>
-              Sign up
-            </Typography>
-          </LoadingButton>
-        </Grid>
-
-        <Grid
-          item
-          marginY={0}
-          minWidth={intputWidth}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Typography>Or</Typography>{' '}
-          <Button
-            onClick={() => {
-              handleChangePhone();
-            }}
-            sx={{ textTransform: 'none' }}
-          >
-            <Typography sx={{ textDecoration: 'underline' }}>
-              use another phone number
-            </Typography>
-          </Button>
-        </Grid>
-      </Grid>
-    );
-  };
-
   return (
     <Box
       boxShadow={theme.shadows[1]}
@@ -406,10 +190,256 @@ function SignupBox(props: SignupBoxProps) {
             </Typography>
           </Button>
         </Grid>
-        {renderBody()}
+        <RenderBody
+          handleChange={handleChange}
+          values={values}
+          handleSignup={handleSignup}
+          isOtpVerified={isOtpVerified}
+          isOtpLoading={isOtpLoading}
+          handleClickShowPasscode={handleClickShowPasscode}
+          handleMouseDownPassword={handleMouseDownPassword}
+          handleChangePhone={handleChangePhone}
+          handleVerifyOTP={handleVerifyOTP}
+        />
       </Grid>
     </Box>
   );
 }
 
 export default SignupBox;
+
+interface RenderBodyProps {
+  handleChange: (
+    prop: keyof InputState,
+  ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
+  values: InputState;
+  handleSignup: () => void;
+  isOtpVerified: boolean;
+  isOtpLoading: boolean;
+  handleChangePhone: () => void;
+  handleClickShowPasscode: () => void;
+  handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  handleVerifyOTP: () => void;
+}
+
+function RenderBody(props: RenderBodyProps) {
+  const {
+    handleChange,
+    values,
+    handleSignup,
+    isOtpVerified,
+    isOtpLoading,
+    handleClickShowPasscode,
+    handleMouseDownPassword,
+    handleChangePhone,
+    handleVerifyOTP,
+  } = props;
+  const authLoading = useSelector(selectAuthLoading);
+  const verifyPhoneLoading = useSelector(selectVerifyPhoneLoading);
+  const isVerified = useSelector(selectVerify);
+  const verifiedStaff = useSelector(selectVerifiedStaff);
+  const theme = useTheme();
+  if (!verifiedStaff) {
+    return (
+      <Grid
+        item
+        container
+        direction="column"
+        alignItems="center"
+        marginTop={5}
+        rowSpacing={2}
+      >
+        <Grid item minWidth={intputWidth}>
+          <PhoneInputCustom
+            onChange={(value, _country: any) => {
+              const event = {
+                target: {
+                  value: value,
+                },
+              };
+
+              handleChange('phone')(event as any);
+            }}
+            value={values.phone}
+          />
+        </Grid>
+
+        <Grid item marginY={2} minWidth={intputWidth}>
+          <LoadingButton
+            variant="contained"
+            fullWidth
+            sx={{ textTransform: 'capitalize' }}
+            onClick={handleSignup}
+            loading={verifyPhoneLoading}
+          >
+            <Typography my={0.5} fontWeight={500}>
+              Verify Phone Number
+            </Typography>
+          </LoadingButton>
+        </Grid>
+      </Grid> 
+    );
+  }
+
+  if (!isOtpVerified) {
+    return (
+      <Grid
+        item
+        container
+        direction="column"
+        alignItems="center"
+        my={2}
+        spacing={2}
+      >
+        <Grid item>
+          <Typography width={400} textAlign="center" variant="h6">
+            Enter the verification code
+          </Typography>
+          <Typography textAlign="center"> (available in 5 mins)</Typography>
+        </Grid>
+        <Grid item my={2} mx={-2}>
+          <OtpInput
+            value={values.otp}
+            onChange={(otp: string) =>
+              handleChange('otp')({
+                target: { value: otp },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
+            numInputs={6}
+            separator={<span>o</span>}
+            inputStyle={{
+              width: '3rem',
+              height: '3rem',
+              margin: '0 1rem',
+              fontSize: '2rem',
+              borderRadius: '4px',
+              border: '1px solid rgba(0, 0, 0, 0.3)',
+            }}
+            isInputNum
+          />
+        </Grid>
+
+        <Grid item container justifyContent="space-between" mt={2}>
+          <LoadingButton variant="outlined" onClick={() => handleChangePhone()}>
+            Change Phone num
+          </LoadingButton>
+          <LoadingButton
+            variant="contained"
+            disabled={values.otp.length < 6}
+            onClick={() => handleVerifyOTP()}
+            loading={isOtpLoading}
+          >
+            Verify
+          </LoadingButton>
+        </Grid>
+      </Grid>
+    );
+  }
+  return (
+    <Grid item container direction="column" alignItems="center" rowSpacing={2}>
+      <Grid item>
+        <Box
+          sx={{
+            padding: `${theme.spacing(2)} 0`,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minWidth: 'none',
+          }}
+        >
+          {verifiedStaff?.imageUrl && (
+            <div
+              style={{
+                // overflow: 'hidden',
+                width: 128,
+                height: 128,
+              }}
+            >
+              <img
+                src={verifiedStaff.imageUrl}
+                alt={'item image'}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  // maxHeight: '50vh',
+                  margin: `${theme.spacing(2)} 0`,
+                  borderRadius: '50%',
+                }}
+              />
+            </div>
+          )}
+          <br />
+          <Typography variant="body1">
+            <strong>{verifiedStaff.firstName}</strong>{' '}
+            {verifiedStaff.lastName || ''}
+          </Typography>
+        </Box>
+      </Grid>
+      <Grid item minWidth={intputWidth}>
+        <OutlinedInput
+          value={values.username}
+          onChange={handleChange('username')}
+          placeholder="Enter username"
+          fullWidth
+        />
+      </Grid>
+      <Grid item minWidth={intputWidth}>
+        <OutlinedInput
+          placeholder="Passcode"
+          type={values.showPasscode ? 'text' : 'password'}
+          value={values.passcode}
+          onChange={handleChange('passcode')}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPasscode}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {values.showPasscode ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          fullWidth
+        />
+      </Grid>
+      <Grid item marginY={2} minWidth={intputWidth}>
+        <LoadingButton
+          variant="contained"
+          fullWidth
+          sx={{ textTransform: 'capitalize' }}
+          onClick={handleSignup}
+          loading={authLoading}
+        >
+          <Typography my={0.5} fontWeight={500}>
+            Sign up
+          </Typography>
+        </LoadingButton>
+      </Grid>
+
+      <Grid
+        item
+        marginY={0}
+        minWidth={intputWidth}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Typography>Or</Typography>{' '}
+        <Button
+          onClick={() => {
+            handleChangePhone();
+          }}
+          sx={{ textTransform: 'none' }}
+        >
+          <Typography sx={{ textDecoration: 'underline' }}>
+            use another phone number
+          </Typography>
+        </Button>
+      </Grid>
+    </Grid>
+  );
+}

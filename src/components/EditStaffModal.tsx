@@ -22,7 +22,6 @@ import { styled, useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useEffect, useState } from 'react';
 import NumberFormat from 'react-number-format';
-import { CountryData } from 'react-phone-input-2';
 import { useDispatch, useSelector } from 'react-redux';
 
 const style = {
@@ -95,7 +94,7 @@ export default function EditStaffModal(props: EditModalProps) {
       | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
       | SelectChangeEvent,
     field: keyof StaffPostData,
-    country?: CountryData,
+    country?: any,
   ) => {
     setStaffState((prevState) => {
       let value = e.target.value;
@@ -327,7 +326,7 @@ export default function EditStaffModal(props: EditModalProps) {
                         // }}
                       /> */}
                   <PhoneInputCustom
-                    onChange={(value, country: CountryData) => {
+                    onChange={(value, country: any) => {
                       const event = {
                         target: {
                           value: value,

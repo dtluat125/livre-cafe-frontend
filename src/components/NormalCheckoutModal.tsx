@@ -63,7 +63,6 @@ import Typography from '@mui/material/Typography';
 import moment from 'moment';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import NumberFormat from 'react-number-format';
-import { CountryData } from 'react-phone-input-2';
 import { useDispatch, useSelector } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 
@@ -745,7 +744,7 @@ export const AddCustomerBox = (props: AddCustomerBoxProps) => {
       | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
       | SelectChangeEvent,
     field: keyof CustomerStateInterface,
-    country?: CountryData,
+    country?: any,
   ) => {
     setCustomerState((prevState) => {
       return { ...prevState, [field]: e.target.value };
@@ -834,7 +833,7 @@ export const AddCustomerBox = (props: AddCustomerBoxProps) => {
           // }}
         /> */}
             <PhoneInputCustom
-              onChange={(value, country: CountryData) => {
+              onChange={(value, country: any) => {
                 const event = {
                   target: {
                     value: value,

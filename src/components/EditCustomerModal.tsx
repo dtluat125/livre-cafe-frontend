@@ -28,7 +28,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useState } from 'react';
 import NumberFormat from 'react-number-format';
-import { CountryData } from 'react-phone-input-2';
 import { useDispatch, useSelector } from 'react-redux';
 
 const style = {
@@ -141,7 +140,7 @@ export default function EditCustomerModal(props: AddModalProps) {
       | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
       | SelectChangeEvent,
     field: keyof CustomerStateInterface,
-    country?: CountryData,
+    country?: any,
   ) => {
     const isNumberField = field === 'phone';
 
@@ -285,7 +284,7 @@ export default function EditCustomerModal(props: AddModalProps) {
                   <Grid xs sx={{ maxWidth: 400 }}>
                     <PhoneInputCustom
                       value={customerState.phone}
-                      onChange={(value, country: CountryData) => {
+                      onChange={(value, country: any) => {
                         const event = {
                           target: {
                             value: value,

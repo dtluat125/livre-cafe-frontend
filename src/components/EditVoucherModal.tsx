@@ -26,7 +26,6 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 import { useState } from 'react';
 import NumberFormat from 'react-number-format';
-import { CountryData } from 'react-phone-input-2';
 import { useDispatch, useSelector } from 'react-redux';
 
 const style = {
