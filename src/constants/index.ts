@@ -9,7 +9,7 @@ export const LOGIN_PATH = '/login';
 export const SIGNUP_PATH = '/signup';
 export const STAFFS_PATH = '/staffs';
 // API Constants
-export const BASE_URL = 'https://livre-cafe-backend.herokuapp.com/';
+export const BASE_URL = 'https://livre-cafe-backend.onrender.com';
 export const BASE_URL_MOCK = '/api-mock/';
 
 export const PREFIX_URL =
